@@ -30,7 +30,7 @@ db.once('open', () => {
 app.use(express.static(path.join(__dirname, 'client/public')))
 app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
-app.use(cors())
+app.use(cors({ origin: 'https://kind-shaw-87f836.netlify.app/' }))
 
 /////////////////////////routes//////////////////////////////
 
@@ -45,6 +45,7 @@ app.get('/auth', async (req, res) => res.send(
 //all posts
 app.get('/home', async (req, res) => {
     const posts = await Post.find({}).sort({"_id": -1})
+    console.log(req.headers)
     res.send(posts)
 })
 
