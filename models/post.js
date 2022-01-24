@@ -26,13 +26,12 @@ const postSchema = new mongoose.Schema({
         default: 0,
         required: true,
     },
-    TokenArrayLikes: [],
+    TokenArray: [],
     Dislikes: {
         type: Number,
         default: 0,
         required: true
     },
-    TokenArrayDislikes: [],
     Comments: [subCommentsSchema]
 })
 

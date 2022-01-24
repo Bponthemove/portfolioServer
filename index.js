@@ -32,6 +32,14 @@ app.use(express.json())
 
 /////////////////////////routes//////////////////////////////
 
+//auth init
+app.get('/auth', async (req, res) => res.send(
+    { 
+        tenantId: process.env.USERFRONT_TENANT_ID, 
+        toolId: process.env.USERFRONT_TOOLID 
+    }
+))
+
 //all posts
 app.get('/home', async (req, res) => {
     const posts = await Post.find({}).sort({"_id": -1})
