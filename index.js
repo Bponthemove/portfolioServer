@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 require('dotenv').config()
 const mongoose = require('mongoose')
 const path = require('path')
@@ -29,6 +30,7 @@ db.once('open', () => {
 app.use(express.static(path.join(__dirname, 'client/public')))
 app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
+app.use(cors())
 
 /////////////////////////routes//////////////////////////////
 
