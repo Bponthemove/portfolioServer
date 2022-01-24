@@ -30,7 +30,8 @@ db.once('open', () => {
 app.use(express.static(path.join(__dirname, 'client/public')))
 app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
-app.use(cors({ origin: 'https://kind-shaw-87f836.netlify.app/' }))
+app.use(cors())
+// app.use(cors({ origin: 'https://kind-shaw-87f836.netlify.app/' }))
 
 /////////////////////////routes//////////////////////////////
 
