@@ -44,7 +44,7 @@ app.get('/auth', async (req, res) => res.send(
 ))
 
 //all posts
-app.get('/home', async (req, res) => {
+app.get('/blog', async (req, res) => {
     const posts = await Post.find({}).sort({"_id": -1})
     console.log(req.headers)
     res.send(posts)
