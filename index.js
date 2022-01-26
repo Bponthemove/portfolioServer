@@ -1,6 +1,9 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
+
 const express = require('express')
 const cors = require('cors')
-require('dotenv').config()
 const mongoose = require('mongoose')
 const path = require('path')
 const errorHandler = require('./errors/errorHandler')
@@ -31,37 +34,43 @@ app.use(express.static(path.join(__dirname, 'client/public')))
 app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
 app.use(cors())
-// app.use(cors({ origin: 'https://kind-shaw-87f836.netlify.app/' }))
+app.use(cors({ origin: 'https://kind-shaw-87f836.netlify.app/' }))
 
 /////////////////////////routes//////////////////////////////
 
 //auth init
 app.get('/auth', async (req, res) => res.send(
-    { 
-        tenantId: process.env.USERFRONT_TENANT_ID, 
-        toolId: process.env.USERFRONT_TOOLID 
+    {   
+        Userfront :
+            {   tenantId: process.env.USERFRONT_TENANT_ID, 
+                toolId: process.env.USERFRONT_TOOLID
+            },
+        Cloudinary :
+            {
+                cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+                apiKey: process.env.CLOUDINARY_API_KEY 
+            }
     }
 ))
 
 //all posts
 app.get('/blog', async (req, res) => {
     const posts = await Post.find({}).sort({"_id": -1})
-    console.log(req.headers)
     res.send(posts)
 })
 
 //single post
-app.get('/post/:id', async (req, res) => {
+app.get('/blog/post/:id', async (req, res) => {
     const { id } = req.params
     const post = await Post.findById(id)
     res.send(post)
 })
 
-app.post('/newpost', auth, submitPost)
+app.post('/blog/newpost', auth, submitPost)
 
-app.put('/updatepost/:id', auth, updatePost)
+app.put('/blog/updatepost/:id', auth, updatePost)
 
-app.delete('/deletepost/:id', auth, deletePost)
+app.delete('/blog/deletepost/:id', auth, deletePost)
 
 /////////////error handler, needs to be last///////////////////
 app.use(errorHandler)
