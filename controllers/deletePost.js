@@ -7,8 +7,6 @@ module.exports = async (req, res, next) => {
             const { id } = req.params
             const data = await Post.findByIdAndDelete(id)
             res.send(data)
-        } else {
-            res.send(null)
         }
     } catch (err) {
         next(ApiError.internal('no such id found'))

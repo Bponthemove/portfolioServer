@@ -22,9 +22,7 @@ module.exports = (req, res, next) => {
                 req.auth = {data: auth, access: true, token: token, accessFor: accessfor}
                 next()
             } else {
-                //no access
-                req.auth = {data: null, access: false}
-                next()
+                next(ApiError.tokenError('You are not authorized for this action'))
                 return
             }
         })

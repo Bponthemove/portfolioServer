@@ -7,8 +7,6 @@ module.exports = async (req, res) => {
             const newPost = await req.body
             const data = await Post.create(newPost)
             res.send(data)
-        } else {
-            res.send(null)
         }
     } catch (err) {
         next(ApiError.internal('no such id found'))
