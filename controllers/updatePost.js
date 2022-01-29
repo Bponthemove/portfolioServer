@@ -9,8 +9,10 @@ module.exports = async (req, res) => {
         if (req.auth.access && accessFor === 'thumbs') {
             if (x.length === 0) {
                 await Post.findByIdAndUpdate(id, { ...req.body })
-                const data = await Post.findByIdAndUpdate(id, { $push: {TokenArray: token}})
-                res.send(data)
+                const updatedPost = await Post.findByIdAndUpdate(id, { $push: {TokenArray: token}})
+                res.send(updatedPost)
+            } else {
+                res.sendStatus(405)
             }
         }
         if (req.auth.access && accessFor === 'comments') {

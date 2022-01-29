@@ -47,7 +47,8 @@ app.get('/auth', async (req, res) => {
                         Cloudinary_cloudName: process.env.CLOUDINARY_CLOUD_NAME,
                         Cloudinary_apiKey: process.env.CLOUDINARY_API_KEY 
                     }]
-    res.status(200),json({ secrets })
+    res.send(secrets)
+    // res.status(200),json({ secrets })
 })
 
 //all posts
