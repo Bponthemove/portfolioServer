@@ -6,6 +6,7 @@ module.exports = async (req, res) => {
         if (req.auth.access) {
             const newPost = await req.body
             const data = await Post.create(newPost)
+            console.log(data)
             res.send(data)
         }
     } catch (err) {

@@ -40,15 +40,10 @@ app.use(cors())
 
 //auth init
 app.get('/auth', async (req, res) => {
-    const secrets =[{   Userfront_tenantId: process.env.USERFRONT_TENANT_ID, 
-                        Userfront_toolId: process.env.USERFRONT_TOOLID
-                    },
-                    {
-                        Cloudinary_cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-                        Cloudinary_apiKey: process.env.CLOUDINARY_API_KEY 
-                    }]
-    res.send(secrets)
-    // res.status(200),json({ secrets })
+    const secrets ={    Userfront_tenantId: process.env.USERFRONT_TENANT_ID,
+                        Cloudinary_cloudName: process.env.CLOUDINARY_CLOUD_NAME
+                    }
+    res.status(200).send(secrets)
 })
 
 //all posts

@@ -1,7 +1,7 @@
 const Post = require('../models/post')
 const ApiError = require('../errors/ApiError')
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     const { id } = req.params
     const { accessFor, token } = req.auth
     try {
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
                 const updatedPost = await Post.findByIdAndUpdate(id, { $push: {TokenArray: token}})
                 res.send(updatedPost)
             } else {
-                res.sendStatus(405)
+                next(ApiError.thumbsError('only 1 like/dislike per post'))
             }
         }
         if (req.auth.access && accessFor === 'comments') {

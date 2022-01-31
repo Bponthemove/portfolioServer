@@ -12,6 +12,9 @@ class ApiError {
     static tokenError(msg) {
         return new ApiError(403, msg)
     }
+    static thumbsError(msg) {
+        return new ApiError(405, msg)
+    }
     static internal(msg) {
         return new ApiError(500, msg)
     }
