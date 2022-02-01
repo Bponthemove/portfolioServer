@@ -6,10 +6,15 @@ module.exports = (req, res, next) => {
         // Read the JWT access token from the request header
     const { accesstype: accessType, authorization, accessfor } = req.headers;
     const token = authorization && authorization.split(" ")[1]
+    console.log(token)
+    console.log(req.headers)
+    
         // Verify the token using the Userfront public key 
         //  use .replace(/\\n/gm, '\n') and \n before and after the string in the env file
     try {
         jwt.verify(token, process.env.USERFRONT_PUBLIC_KEY.replace(/\\n/gm, '\n'), (err, auth) => {
+            console.log(err)
+            console.log(auth)
             if (err) {
                 // Return 403 if there is an error verifying
                 next(ApiError.tokenError('token verification error'))
