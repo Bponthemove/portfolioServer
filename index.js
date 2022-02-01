@@ -46,13 +46,13 @@ app.get('/auth', async (req, res) => {
     res.status(200).send(secrets)
 })
 
-//all posts
+//all posts, no auth
 app.get('/blog', async (req, res) => {
     const posts = await Post.find({}).sort({"_id": -1})
     res.send(posts)
 })
 
-//single post
+//single post, no auth
 app.get('/blog/post/:id', async (req, res) => {
     const { id } = req.params
     const post = await Post.findById(id)
