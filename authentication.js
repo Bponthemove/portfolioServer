@@ -10,21 +10,21 @@ module.exports = (req, res, next) => {
         // Verify the token using the Userfront public key 
         //  use .replace(/\\n/gm, '\n') and \n before and after the string in the env file
     try {
-        console.log(13)
-        const verifiedPayload = jwt.verify(
-            accessToken,
-            process.env.USERFRONT_PUBLIC_KEY.replace(/\\n/gm, '\n'),
-            { algorithms: ["RS256"] }
-        )
+        jwt.verify(accessToken, process.env.USERFRONT_PUBLIC_KEY.replace(/\\n/gm, '\n'), (err, auth) => {
+            if (err) {
+        //403 token verification error
+                return next(ApiError.tokenError('token verification error'))
+            } else {
         //check whether access is authorized for certain action (eg member auth for member access and admin auth for admin access)
-        const accessRole = verifiedPayload.authorization[process.env.USERFRONT_TENANT_ID] || {}
-        if ((accessType === 'admin' & accessRole.roles.includes('admin')) || (accessType === 'member' & accessRole.roles.includes('member'))) {
-            console.log(15)
-            req.auth = { verifiedPayload, accessFor, accessToken }
-            next()
-        } else {
-            next(ApiError.tokenError('You are not authorized for this action'))
-        }
+                const accessRole = auth.authorization[process.env.USERFRONT_TENANT_ID] || {}
+                if ((accessType === 'admin' & accessRole.roles.includes('admin')) || (accessType === 'member' & accessRole.roles.includes('member'))) {
+                    req.auth = { auth, accessFor, accessToken }
+                    return next()
+                } else {
+                    return next(ApiError.tokenError('You are not authorized for this action'))
+                }
+            }
+        })
     } catch (err) {
         //return 401 authorization error
         next(ApiError.authError('Authorization error'))
